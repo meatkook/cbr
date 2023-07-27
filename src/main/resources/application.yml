@@ -1,0 +1,31 @@
+micronaut:
+  application:
+    name: cbr
+variables:
+  DB_URL: jdbc:postgresql://localhost:5432/bankData
+datasources:
+  default:
+  #    url: ${DB_URL}
+  #    username: ${DB_USER}
+  #    password: ${DB_PASSWORD}
+    DB_URL: jdbc:postgresql://localhost:5432/bankData
+    driverClassName: org.postgresql.Driver
+    url: ${variables.DB_URL}
+    username: postgres
+    password: root_password
+jpa:
+  default:
+    entity-scan:
+      packages:
+        - 'com.currency.entity'
+    compile-time-hibernate-proxies: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        show_sql: true
+        hbm2ddl:
+          auto: update
+netty:
+  default:
+    allocator:
+      max-order: 3

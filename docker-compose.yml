@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  app:
+    container_name: app_cbr
+    image: cbr
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgresDB:
+        condition: service_started
+    environment:
+      variables.DB_URL: jdbc:postgresql://postgresDB:5432/bankData
+      JPA_HIBERNATE_DDL_AUTO: update
+    networks:
+      - internet
+      - appnet
+#  app_bnb:
+#    container_name: bnb
+#    image: 'bnb:latest'
+##    build: ./
+#    ports:
+#      - "8081:8080"
+#    depends_on:
+#      - postgresDB
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresDB:5432/bankData
+#      - SPRING_DATASOURCE_USERNAME=postgres
+#      - SPRING_DATASOURCE_PASSWORD=root_password
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#    networks:
+#      - appnet
+  postgresDB:
+    image: 'postgres:15.2-alpine'
+    container_name: db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: bankData
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "root_password"
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - appnet
+networks:
+  internet:
+    name: internet
+    driver: bridge
+  appnet:
+    name: appnet
+    driver: bridge

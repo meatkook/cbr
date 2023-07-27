@@ -1,0 +1,19 @@
+-- Table: public.currency_cbr
+
+-- DROP TABLE IF EXISTS public.currency_cbr;
+
+CREATE TABLE IF NOT EXISTS public.currency_cbr
+(
+    valute_id character varying COLLATE pg_catalog."default" NOT NULL,
+    num_code character varying COLLATE pg_catalog."default" NOT NULL,
+    char_code character varying COLLATE pg_catalog."default" NOT NULL,
+    nominal integer NOT NULL,
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    value numeric NOT NULL,
+    CONSTRAINT currency_cbr_pkey PRIMARY KEY (valute_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.currency_cbr
+    OWNER to postgres;
